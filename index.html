@@ -4,263 +4,57 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard — Atletas Invisíveis (60 dias)</title>
+  <title>Agosto 2025 — Frequência & Feedbacks</title>
   <style>
-    :root {
-      --bg: #0b0c0e; 
-      --card: #14161a;
-      --text: #f4f4f5;
-      --muted: #a1a1aa;
-      --accent: #00a39b;
-      --red: #dc2626;
-      --yellow: #f59e0b;
-      --green: #16a34a;
-      --chip: #1f2228;
-      --border: #1f2329;
-    }
-    body {
-      margin: 0; padding: 32px; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background: radial-gradient(1200px 600px at 10% -10%, rgba(0,163,155,0.15), transparent 60%),
-                  radial-gradient(800px 400px at 100% 0%, rgba(245,158,11,0.12), transparent 60%),
-                  var(--bg);
-      color: var(--text);
-    }
-    .container { max-width: 1200px; margin: 0 auto; }
-    h1 { font-size: 28px; margin: 0 0 8px 0; letter-spacing: 0.5px; }
-    p.subtitle { color: var(--muted); margin-top: 0; }
-    .grid { display: grid; gap: 16px; }
-    .grid.cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
-      border: 1px solid var(--border);
-      border-radius: 16px; padding: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      backdrop-filter: blur(6px);
-    }
-    .stat-title { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-    .stat-value { font-size: 28px; font-weight: 700; margin-top: 6px; }
-    .controls { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
-    .input, .select {
-      background: var(--card); color: var(--text); border: 1px solid var(--border);
-      padding: 10px 12px; border-radius: 12px; outline: none; min-width: 180px;
-    }
-    table {
-      width: 100%; border-collapse: collapse; overflow: hidden;
-      border: 1px solid var(--border); border-radius: 14px; background: var(--card);
-    }
-    thead th { text-align: left; font-size: 12px; color: var(--muted); padding: 12px; border-bottom: 1px solid var(--border); }
-    tbody td { padding: 12px; border-top: 1px solid var(--border); font-size: 14px; }
-    tr:hover td { background: #181b21; }
-    .status { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
-    .status.risco { background: rgba(220,38,38,0.15); color: #fecaca; border: 1px solid rgba(220,38,38,0.6); }
-    .status.atencao { background: rgba(245,158,11,0.15); color: #fde68a; border: 1px solid rgba(245,158,11,0.6); }
-    .status.estavel { background: rgba(22,163,74,0.15); color: #bbf7d0; border: 1px solid rgba(22,163,74,0.6); }
-    .badge { background: var(--chip); color: var(--muted); font-size: 12px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); }
-    .section-title { font-size: 18px; margin: 20px 0 8px; }
-    .muted { color: var(--muted); }
-    .link { color: var(--accent); text-decoration: none; }
-    .footer { margin-top: 32px; color: var(--muted); font-size: 12px; }
-    .split { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
-    @media (max-width: 900px) { .grid.cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .split { grid-template-columns: 1fr; } }
+    body{background:#0b0f14;color:#e6eef4;font:14px/1.5 Inter,sans-serif;margin:0}
+    header{padding:28px 24px 8px}
+    h1{margin:0;font-size:26px}
+    .sub{color:#8ba1b0;font-size:12px;margin-top:6px}
+    .wrap{padding:0 24px 28px}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+    .kpi{background:#11161d;border:1px solid #1f2a36;border-radius:14px;padding:16px}
+    .kpi .label{color:#8ba1b0;font-size:12px}
+    .kpi .val{font-size:22px;font-weight:700;margin-top:6px}
+    .panel{background:#11161d;border:1px solid #1f2a36;border-radius:16px;padding:16px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px 8px;border-bottom:1px solid #1f2a36;text-align:left}
+    thead th{position:sticky;top:0;background:#11161d;z-index:1;font-size:12px;color:#8ba1b0}
+    .status{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:600}
+    .ok{background:#0f2f26;color:#34d399}
+    .att{background:#2a1f0f;color:#fbbf24}
+    .risk{background:#2b1313;color:#f87171}
+    .chip{display:inline-block;padding:2px 8px;border-radius:999px;background:#223040;border:1px solid #1f2a36;margin:2px}
+    .row{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
+    select,input,button{background:#0c121a;color:#e6eef4;border:1px solid #1f2a36;border-radius:10px;padding:8px}
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Dashboard – Atletas Invisíveis (últimos 60 dias)</h1>
-    <p class="subtitle">Resumo por atleta (insights) + drill-down por sessão.</p>
-
-    <div class="grid cards" id="kpis">
-      <div class="card"><div class="stat-title">Atletas</div><div class="stat-value" id="kpi-atletas">–</div></div>
-      <div class="card"><div class="stat-title">Sessões</div><div class="stat-value" id="kpi-sessoes">–</div></div>
-      <div class="card"><div class="stat-title">Nota média</div><div class="stat-value" id="kpi-nota">–</div></div>
-      <div class="card"><div class="stat-title">Δ humor (depois - antes)</div><div class="stat-value" id="kpi-delta">–</div></div>
+  <header>
+    <h1>Agosto 2025 — Frequência & Feedbacks</h1>
+    <div class="sub">Consolidado mensal a partir de “Análise de Frequência” + “Respostas Typebot”.</div>
+  </header>
+  <div class="wrap">
+    <div class="kpis">
+      <div class="kpi"><div class="label">Atletas</div><div class="val" id="kpiAtletas">—</div></div>
+      <div class="kpi"><div class="label">Aulas</div><div class="val" id="kpiAulas">—</div></div>
+      <div class="kpi"><div class="label">Presenças</div><div class="val" id="kpiPres">—</div></div>
+      <div class="kpi"><div class="label">% médio</div><div class="val" id="kpiFreq">—</div></div>
     </div>
-
-    <div class="controls">
-      <select class="select" id="filtro-status">
-        <option value="">Status (todos)</option>
-        <option value="Risco">Risco</option>
-        <option value="Atenção">Atenção</option>
-        <option value="Estável">Estável</option>
-      </select>
-      <input class="input" id="busca-atleta" placeholder="Buscar atleta..." />
-      <button class="input" id="limpar">Limpar filtros</button>
+    <div class="row">
+      <label>Status</label><select id="statusSel"><option value="">Todos</option><option>OK</option><option>Atenção</option><option>Risco</option></select>
+      <label>Buscar</label><input id="q" placeholder="Nome…">
+      <button onclick="apply()">Aplicar</button><button onclick="reset()">Limpar</button>
     </div>
-
-    <div class="card">
-      <div class="section-title">Insights por atleta</div>
-      <table>
-        <thead>
-          <tr>
-            <th>Atleta</th>
-            <th class="muted">Sessões</th>
-            <th>Nota média</th>
-            <th>Humor antes</th>
-            <th>Humor depois</th>
-            <th>Δ Humor</th>
-            <th>Frequência/semana</th>
-            <th>Status</th>
-            <th>Flags</th>
-          </tr>
-        </thead>
-        <tbody id="tabela-insights"></tbody>
-      </table>
-    </div>
-
-    <div class="split">
-      <div class="card">
-        <div class="section-title">Sessões do atleta selecionado</div>
-        <div class="muted" id="selecionado-info">Selecione um atleta na tabela para ver os treinos.</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Data</th><th>Modalidade</th><th>Intensidade</th><th>Duração</th><th>Nota</th><th>Antes</th><th>Depois</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-sessoes"></tbody>
-        </table>
-      </div>
-      <div class="card">
-        <div class="section-title">Sugestões (auto)</div>
-        <div id="sugestoes" class="muted">—</div>
-      </div>
-    </div>
-
-    <div class="footer">
-      Fonte: CSVs gerados via análise (insights_60d / base_60d). Você pode abrir este HTML e compartilhar diretamente.
+    <div class="panel">
+      <table><thead><tr><th>Atleta</th><th>Pres</th><th>Faltas</th><th>Aulas</th><th>Freq</th><th>Feedbacks</th><th>Respondeu?</th><th>Status</th><th>Por quê</th></tr></thead><tbody id="body"></tbody></table>
+      <div class="sub">Regras: <span class="chip">Risco</span> freq&lt;25% ou ≥4 faltas ou (sem feedback+freq&lt;40%). <span class="chip">Atenção</span> freq&lt;60% ou sem feedback. Senão <span class="chip">OK</span>.</div>
     </div>
   </div>
-
-  <script>
-    const INSIGHTS = [{"Atleta": "Allana Gonçalves", "sessoes": 1, "media_nota": 5.0, "media_sent_antes": 5.0, "media_sent_depois": 4.0, "delta_sent": -1.0, "freq_semana": 0.12, "status": "Risco", "flags": "sem melhora de humor após treino, baixa assiduidade"}, {"Atleta": "Ana Carvalho", "sessoes": 1, "media_nota": 5.0, "media_sent_antes": 5.0, "media_sent_depois": 4.0, "delta_sent": -1.0, "freq_semana": 0.12, "status": "Risco", "flags": "sem melhora de humor após treino, baixa assiduidade"}, {"Atleta": "Beatriz Lima", "sessoes": 4, "media_nota": 4.25, "media_sent_antes": 4.5, "media_sent_depois": 5.0, "delta_sent": 0.5, "freq_semana": 0.47, "status": "Atenção", "flags": "baixa assiduidade"}, {"Atleta": "Brayan Reis", "sessoes": 1, "media_nota": 4.0, "media_sent_antes": 3.0, "media_sent_depois": 5.0, "delta_sent": 2.0, "freq_semana": 0.12, "status": "Atenção", "flags": "baixa assiduidade"}, {"Atleta": "Diego Rossi", "sessoes": 2, "media_nota": 5.0, "media_sent_antes": 5.0, "media_sent_depois": 5.0, "delta_sent": 0.0, "freq_semana": 0.23, "status": "Risco", "flags": "sem melhora de humor após treino, baixa assiduidade"}, {"Atleta": "Felipe Silva", "sessoes": 1, "media_nota": 4.0, "media_sent_antes": 5.0, "media_sent_depois": 5.0, "delta_sent": 0.0, "freq_semana": 0.12, "status": "Risco", "flags": "sem melhora de humor após treino, baixa assiduidade"}, {"Atleta": "Gabriel Neves", "sessoes": 3, "media_nota": 5.0, "media_sent_antes": 3.67, "media_sent_depois": 5.0, "delta_sent": 1.33, "freq_semana": 0.35, "status": "Atenção", "flags": "baixa assiduidade"}, {"Atleta": "Kaique Oliveira", "sessoes": 4, "media_nota": 5.0, "media_sent_antes": 2.0, "media_sent_depois": 5.0, "delta_sent": 3.0, "freq_semana": 0.47, "status": "Risco", "flags": "humor consistentemente baixo, baixa assiduidade"}, {"Atleta": "Kauan Brito", "sessoes": 6, "media_nota": 3.33, "media_sent_antes": 3.0, "media_sent_depois": 3.5, "delta_sent": 0.5, "freq_semana": 0.7, "status": "Estável", "flags": NaN}, {"Atleta": "Kauan Maia", "sessoes": 5, "media_nota": 3.6, "media_sent_antes": 4.0, "media_sent_depois": 4.2, "delta_sent": 0.2, "freq_semana": 0.58, "status": "Atenção", "flags": "baixa assiduidade"}, {"Atleta": "Miguel Sirtoli", "sessoes": 1, "media_nota": 4.0, "media_sent_antes": 3.0, "media_sent_depois": 5.0, "delta_sent": 2.0, "freq_semana": 0.12, "status": "Atenção", "flags": "baixa assiduidade"}, {"Atleta": "Nick Ribeiro", "sessoes": 2, "media_nota": 5.0, "media_sent_antes": 4.0, "media_sent_depois": 1.0, "delta_sent": -3.0, "freq_semana": 0.23, "status": "Risco", "flags": "sem melhora de humor após treino, baixa assiduidade"}, {"Atleta": "Pablo Bonfim", "sessoes": 5, "media_nota": 4.6, "media_sent_antes": 4.2, "media_sent_depois": 2.2, "delta_sent": -2.0, "freq_semana": 0.58, "status": "Risco", "flags": "sem melhora de humor após treino, baixa assiduidade"}, {"Atleta": "Pietro Oliveira", "sessoes": 1, "media_nota": 4.0, "media_sent_antes": 5.0, "media_sent_depois": 5.0, "delta_sent": 0.0, "freq_semana": 0.12, "status": "Risco", "flags": "sem melhora de humor após treino, baixa assiduidade"}, {"Atleta": "Pietro Soares", "sessoes": 5, "media_nota": 4.0, "media_sent_antes": 3.4, "media_sent_depois": 4.0, "delta_sent": 0.6, "freq_semana": 0.58, "status": "Atenção", "flags": "baixa assiduidade"}, {"Atleta": "Sarah Silva", "sessoes": 10, "media_nota": 3.1, "media_sent_antes": 2.5, "media_sent_depois": 3.6, "delta_sent": 1.1, "freq_semana": 1.17, "status": "Risco", "flags": "humor consistentemente baixo, nota média baixa do treino"}, {"Atleta": "Stephany Souza", "sessoes": 3, "media_nota": 4.33, "media_sent_antes": 3.0, "media_sent_depois": 4.0, "delta_sent": 1.0, "freq_semana": 0.35, "status": "Atenção", "flags": "baixa assiduidade"}, {"Atleta": "Vitor Henrique", "sessoes": 3, "media_nota": 5.0, "media_sent_antes": 4.33, "media_sent_depois": 5.0, "delta_sent": 0.67, "freq_semana": 0.35, "status": "Atenção", "flags": "baixa assiduidade"}, {"Atleta": "Vitor Messias", "sessoes": 6, "media_nota": 5.0, "media_sent_antes": 3.86, "media_sent_depois": 4.71, "delta_sent": 0.86, "freq_semana": 0.7, "status": "Estável", "flags": NaN}, {"Atleta": "Yasmin Zikert", "sessoes": 2, "media_nota": 5.0, "media_sent_antes": 4.0, "media_sent_depois": 5.0, "delta_sent": 1.0, "freq_semana": 0.23, "status": "Atenção", "flags": "baixa assiduidade"}];
-    const BASE = [{"usuario": "allana.gonçalves@atletasinvisiveis.com", "data_treino": "2025-05-08", "modalidade": "Escalada", "duracao": "30 - 60 min", "intensidade": "Exaustivo", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 4}, {"usuario": "ana.carvalho@atletasinvisiveis.com", "data_treino": "2025-04-29", "modalidade": "Escalada", "duracao": "30 min", "intensidade": "Normal", "mente": "Tranquilo", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 4}, {"usuario": "beatriz.lima@atletasinvisiveis.com", "data_treino": "2025-05-20", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Regenerativo", "mente": "Concentrado", "lesao": NaN, "nota": 3, "sent_antes": 5, "sent_depois": 5}, {"usuario": "beatriz.lima@atletasinvisiveis.com", "data_treino": "2025-05-27", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Regenerativo", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 5}, {"usuario": "beatriz.lima@atletasinvisiveis.com", "data_treino": "2025-05-30", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Regenerativo", "mente": "Concentrado", "lesao": NaN, "nota": 4, "sent_antes": 5, "sent_depois": 5}, {"usuario": "beatriz.lima@atletasinvisiveis.com", "data_treino": "2025-06-03", "modalidade": "Vôlei", "duracao": "60 -90 min", "intensidade": "Difícil", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 3, "sent_depois": 5}, {"usuario": "brayan.reis@atletasinvisiveis.com", "data_treino": "2025-05-06", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Difícil", "mente": "Concentrado", "lesao": NaN, "nota": 4, "sent_antes": 3, "sent_depois": 5}, {"usuario": "diego.rossi@atletasinvisiveis.com", "data_treino": "2025-05-05", "modalidade": "Futsal", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 5}, {"usuario": "diego.rossi@atletasinvisiveis.com", "data_treino": "2025-05-08", "modalidade": "Futsal", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Feliz", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 5}, {"usuario": "felipe.silva@atletasinvisiveis.com", "data_treino": "2025-05-29", "modalidade": "Futsal", "duracao": "30 - 60 min", "intensidade": "Fácil ", "mente": "Concentrado", "lesao": NaN, "nota": 4, "sent_antes": 5, "sent_depois": 5}, {"usuario": "gabriel.neves@atletasinvisiveis.com", "data_treino": "2025-04-29", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Fácil ", "mente": "Motivado", "lesao": NaN, "nota": 5, "sent_antes": 3, "sent_depois": 5}, {"usuario": "gabriel.neves@atletasinvisiveis.com", "data_treino": "2025-05-06", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Regenerativo", "mente": "Motivado", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 5}, {"usuario": "gabriel.neves@atletasinvisiveis.com", "data_treino": "2025-06-24", "modalidade": "Basquete", "duracao": "90 - 120 min", "intensidade": "Fácil ", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 3, "sent_depois": 5}, {"usuario": "kaique.oliveira@atletasinvisiveis.com", "data_treino": "2025-05-06", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Tranquilo", "lesao": NaN, "nota": 5, "sent_antes": 3, "sent_depois": 5}, {"usuario": "kaique.oliveira@atletasinvisiveis.com", "data_treino": "2025-05-09", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Exaustivo", "mente": "Motivado", "lesao": NaN, "nota": 5, "sent_antes": 3, "sent_depois": 5}, {"usuario": "kaique.oliveira@atletasinvisiveis.com", "data_treino": "2025-05-20", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Difícil", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 1, "sent_depois": 5}, {"usuario": "kaique.oliveira@atletasinvisiveis.com", "data_treino": "2025-06-03", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 1, "sent_depois": 5}, {"usuario": "kauan.brito@atletasinvisiveis.com", "data_treino": "2025-04-29", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Fácil ", "mente": "Concentrado", "lesao": NaN, "nota": 4, "sent_antes": 3, "sent_depois": 3}, {"usuario": "kauan.brito@atletasinvisiveis.com", "data_treino": "2025-05-06", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Concentrado", "lesao": NaN, "nota": 3, "sent_antes": 3, "sent_depois": 4}, {"usuario": "kauan.brito@atletasinvisiveis.com", "data_treino": "2025-05-09", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Difícil", "mente": "Feliz", "lesao": NaN, "nota": 4, "sent_antes": 3, "sent_depois": 4}, {"usuario": "kauan.brito@atletasinvisiveis.com", "data_treino": "2025-05-23", "modalidade": "Basquete", "duracao": "60 -90 min", "intensidade": "Normal", "mente": "Motivado", "lesao": NaN, "nota": 3, "sent_antes": 3, "sent_depois": 3}, {"usuario": "kauan.brito@atletasinvisiveis.com", "data_treino": "2025-05-27", "modalidade": "Basquete", "duracao": "60 -90 min", "intensidade": "Normal", "mente": "Motivado", "lesao": NaN, "nota": 3, "sent_antes": 3, "sent_depois": 3}, {"usuario": "kauan.brito@atletasinvisiveis.com", "data_treino": "2025-06-17", "modalidade": "Basquete", "duracao": "60 -90 min", "intensidade": "Normal", "mente": "Tranquilo", "lesao": NaN, "nota": 3, "sent_antes": 3, "sent_depois": 4}, {"usuario": "kauan.maia@atletasinvisiveis.com", "data_treino": "2025-04-28", "modalidade": "Mentoria Pat", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Feliz", "lesao": NaN, "nota": 1, "sent_antes": 4, "sent_depois": 4}, {"usuario": "kauan.maia@atletasinvisiveis.com", "data_treino": "2025-05-05", "modalidade": "Futsal", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Feliz", "lesao": NaN, "nota": 4, "sent_antes": 3, "sent_depois": 4}, {"usuario": "kauan.maia@atletasinvisiveis.com", "data_treino": "2025-05-26", "modalidade": "Futsal", "duracao": "30 - 60 min", "intensidade": "Exaustivo", "mente": "Tranquilo", "lesao": NaN, "nota": 5, "sent_antes": 4, "sent_depois": 4}, {"usuario": "kauan.maia@atletasinvisiveis.com", "data_treino": "2025-05-29", "modalidade": "Futsal", "duracao": "30 - 60 min", "intensidade": "Fácil ", "mente": "Concentrado", "lesao": NaN, "nota": 3, "sent_antes": 5, "sent_depois": 5}, {"usuario": "kauan.maia@atletasinvisiveis.com", "data_treino": "2025-06-23", "modalidade": "Futsal", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Feliz", "lesao": NaN, "nota": 5, "sent_antes": 4, "sent_depois": 4}, {"usuario": "miguel.sirtoli@atletasinvisiveis.com", "data_treino": "2025-05-26", "modalidade": "BMX", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Feliz", "lesao": NaN, "nota": 4, "sent_antes": 3, "sent_depois": 5}, {"usuario": "nick.ribeiro@atletasinvisiveis.com", "data_treino": "2025-05-28", "modalidade": "Escalada", "duracao": "90 - 120 min", "intensidade": "Normal", "mente": "Motivado", "lesao": NaN, "nota": 5, "sent_antes": 4, "sent_depois": 1}, {"usuario": "nick.ribeiro@atletasinvisiveis.com", "data_treino": "2025-06-11", "modalidade": "Escalada", "duracao": "90 - 120 min", "intensidade": "Normal", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 4, "sent_depois": 1}, {"usuario": "pablo.bonfim@atletasinvisiveis.com", "data_treino": "2025-05-06", "modalidade": "BMX", "duracao": "30 - 60 min", "intensidade": "Exaustivo", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 5}, {"usuario": "pablo.bonfim@atletasinvisiveis.com", "data_treino": "2025-05-09", "modalidade": "BMX", "duracao": "60 -90 min", "intensidade": "Exaustivo", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 4, "sent_depois": 1}, {"usuario": "pablo.bonfim@atletasinvisiveis.com", "data_treino": "2025-05-20", "modalidade": "BMX", "duracao": "60 -90 min", "intensidade": "Difícil", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 4, "sent_depois": 3}, {"usuario": "pablo.bonfim@atletasinvisiveis.com", "data_treino": "2025-05-23", "modalidade": "BMX", "duracao": "30 min", "intensidade": "Exaustivo", "mente": "Triste", "lesao": NaN, "nota": 3, "sent_antes": 4, "sent_depois": 1}, {"usuario": "pablo.bonfim@atletasinvisiveis.com", "data_treino": "2025-05-27", "modalidade": "BMX", "duracao": "30 - 60 min", "intensidade": "Exaustivo", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 4, "sent_depois": 1}, {"usuario": "pietro.oliveira@atletasinvisiveis.com", "data_treino": "2025-06-17", "modalidade": "BMX", "duracao": "30 - 60 min", "intensidade": "Exaustivo", "mente": "Tranquilo", "lesao": NaN, "nota": 4, "sent_antes": 5, "sent_depois": 5}, {"usuario": "pietro.soares@atletasinvisiveis.com", "data_treino": "2025-04-29", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Motivado", "lesao": NaN, "nota": 3, "sent_antes": 3, "sent_depois": 3}, {"usuario": "pietro.soares@atletasinvisiveis.com", "data_treino": "2025-05-06", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Exaustivo", "mente": "Concentrado", "lesao": NaN, "nota": 4, "sent_antes": 4, "sent_depois": 4}, {"usuario": "pietro.soares@atletasinvisiveis.com", "data_treino": "2025-06-03", "modalidade": "Basquete", "duracao": "90 - 120 min", "intensidade": "Regenerativo", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 3, "sent_depois": 5}, {"usuario": "pietro.soares@atletasinvisiveis.com", "data_treino": "2025-06-13", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Regenerativo", "mente": "Tranquilo", "lesao": NaN, "nota": 4, "sent_antes": 3, "sent_depois": 3}, {"usuario": "pietro.soares@atletasinvisiveis.com", "data_treino": "2025-06-17", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Concentrado", "lesao": NaN, "nota": 4, "sent_antes": 4, "sent_depois": 5}, {"usuario": "sarah.silva@atletasinvisiveis.com", "data_treino": "2025-04-29", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Regenerativo", "mente": "Feliz", "lesao": NaN, "nota": 5, "sent_antes": 3, "sent_depois": 5}, {"usuario": "sarah.silva@atletasinvisiveis.com", "data_treino": "2025-05-06", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Exaustivo", "mente": "Triste", "lesao": NaN, "nota": 3, "sent_antes": 1, "sent_depois": 3}, {"usuario": "sarah.silva@atletasinvisiveis.com", "data_treino": "2025-05-09", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Fácil ", "mente": "Feliz", "lesao": NaN, "nota": 4, "sent_antes": 2, "sent_depois": 5}, {"usuario": "sarah.silva@atletasinvisiveis.com", "data_treino": "2025-05-20", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Motivado", "lesao": NaN, "nota": 3, "sent_antes": 3, "sent_depois": 4}, {"usuario": "sarah.silva@atletasinvisiveis.com", "data_treino": "2025-05-23", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Fácil ", "mente": "Triste", "lesao": NaN, "nota": 2, "sent_antes": 2, "sent_depois": 3}, {"usuario": "sarah.silva@atletasinvisiveis.com", "data_treino": "2025-05-27", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Fácil ", "mente": "Triste", "lesao": NaN, "nota": 2, "sent_antes": 2, "sent_depois": 2}, {"usuario": "sarah.silva@atletasinvisiveis.com", "data_treino": "2025-05-30", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Feliz", "lesao": NaN, "nota": 5, "sent_antes": 4, "sent_depois": 5}, {"usuario": "sarah.silva@atletasinvisiveis.com", "data_treino": "2025-06-03", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Fácil ", "mente": "Ansioso", "lesao": NaN, "nota": 3, "sent_antes": 2, "sent_depois": 4}, {"usuario": "sarah.silva@atletasinvisiveis.com", "data_treino": "2025-06-13", "modalidade": "Vôlei", "duracao": "30 min", "intensidade": "Fácil ", "mente": "Triste", "lesao": NaN, "nota": 2, "sent_antes": 3, "sent_depois": 3}, {"usuario": "sarah.silva@atletasinvisiveis.com", "data_treino": "2025-06-17", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Exaustivo", "mente": "Triste", "lesao": NaN, "nota": 2, "sent_antes": 3, "sent_depois": 2}, {"usuario": "stephany.souza@atletasinvisiveis.com", "data_treino": "2025-05-21", "modalidade": "Escalada", "duracao": "90 - 120 min", "intensidade": "Normal", "mente": "Motivado", "lesao": NaN, "nota": 4, "sent_antes": 3, "sent_depois": 4}, {"usuario": "stephany.souza@atletasinvisiveis.com", "data_treino": "2025-05-28", "modalidade": "Escalada", "duracao": "90 - 120 min", "intensidade": "Normal", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 4, "sent_depois": 4}, {"usuario": "stephany.souza@atletasinvisiveis.com", "data_treino": "2025-06-25", "modalidade": "Escalada", "duracao": "60 -90 min", "intensidade": "Normal", "mente": "Tranquilo", "lesao": NaN, "nota": 4, "sent_antes": 2, "sent_depois": 4}, {"usuario": "vitor.henrique@atletasinvisiveis.com", "data_treino": "2025-05-09", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Difícil", "mente": "Ansioso", "lesao": NaN, "nota": 5, "sent_antes": 3, "sent_depois": 5}, {"usuario": "vitor.henrique@atletasinvisiveis.com", "data_treino": "2025-05-20", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Motivado", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 5}, {"usuario": "vitor.henrique@atletasinvisiveis.com", "data_treino": "2025-06-13", "modalidade": "Basquete", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Tranquilo", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 5}, {"usuario": "vitor.messias@atletasinvisiveis.com", "data_treino": "2025-04-28", "modalidade": "Mentoria Pat", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Ansioso", "lesao": NaN, "nota": 5, "sent_antes": 2, "sent_depois": 3}, {"usuario": "vitor.messias@atletasinvisiveis.com", "data_treino": "2025-04-28", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Fácil ", "mente": "Ansioso", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 5}, {"usuario": "vitor.messias@atletasinvisiveis.com", "data_treino": "2025-05-05", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Fácil ", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 3, "sent_depois": 5}, {"usuario": "vitor.messias@atletasinvisiveis.com", "data_treino": "2025-05-08", "modalidade": "Vôlei", "duracao": "60 -90 min", "intensidade": "Normal", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 4, "sent_depois": 5}, {"usuario": "vitor.messias@atletasinvisiveis.com", "data_treino": "2025-06-02", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Difícil", "mente": "Ansioso", "lesao": NaN, "nota": 5, "sent_antes": 3, "sent_depois": 5}, {"usuario": "vitor.messias@atletasinvisiveis.com", "data_treino": "2025-06-12", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Difícil", "mente": "Ansioso", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 5}, {"usuario": "vitor.messias@atletasinvisiveis.com", "data_treino": "2025-06-16", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Fácil ", "mente": "Motivado", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 5}, {"usuario": "yasmin.zikert@atletasinvisiveis.com", "data_treino": "2025-05-06", "modalidade": "Vôlei", "duracao": "30 - 60 min", "intensidade": "Normal", "mente": "Concentrado", "lesao": NaN, "nota": 5, "sent_antes": 5, "sent_depois": 5}, {"usuario": "yasmin.zikert@atletasinvisiveis.com", "data_treino": "2025-05-20", "modalidade": "Vôlei", "duracao": "60 -90 min", "intensidade": "Normal", "mente": "Feliz", "lesao": NaN, "nota": 5, "sent_antes": 3, "sent_depois": 5}];
-
-    // Utilities
-    const fmt = (n, d=2) => (n==null || isNaN(n) ? "—" : Number(n).toFixed(d));
-    const statusClass = (s) => (s||"").toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").replace("ç","c").replace("ã","a").replace("õ","o");
-
-    // KPIs
-    function renderKPIs(rows) {
-      const atletas = new Set(rows.map(r => r.Atleta)).size;
-      const sessoes = rows.reduce((acc, r) => acc + (Number(r.sessoes)||0), 0);
-      const nota = rows.length ? rows.reduce((a,r)=>a+(Number(r.media_nota)||0),0)/rows.length : null;
-      const delta = rows.length ? rows.reduce((a,r)=>a+(Number(r.delta_sent)||0),0)/rows.length : null;
-      document.getElementById('kpi-atletas').textContent = atletas;
-      document.getElementById('kpi-sessoes').textContent = sessoes;
-      document.getElementById('kpi-nota').textContent = fmt(nota);
-      document.getElementById('kpi-delta').textContent = fmt(delta);
-    }
-
-    // Table
-    let selectedAtleta = null;
-
-    function renderTable(rows) {
-      const tbody = document.getElementById('tabela-insights');
-      tbody.innerHTML = "";
-
-      rows.forEach(r => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><a href="#" class="link sel-atleta" data-atleta="${r.Atleta}">${r.Atleta}</a></td>
-          <td class="muted">${r.sessoes ?? "—"}</td>
-          <td>${fmt(r.media_nota)}</td>
-          <td>${fmt(r.media_sent_antes)}</td>
-          <td>${fmt(r.media_sent_depois)}</td>
-          <td>${fmt(r.delta_sent)}</td>
-          <td>${fmt(r.freq_semana)}</td>
-          <td><span class="status ${statusClass(r.status)}">${r.status}</span></td>
-          <td class="muted">${r.flags || "—"}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-
-      // Click handlers
-      document.querySelectorAll('.sel-atleta').forEach(a => {
-        a.addEventListener('click', (e) => {
-          e.preventDefault();
-          selectedAtleta = e.target.dataset.atleta;
-          renderSessions(selectedAtleta);
-          renderSuggestions(selectedAtleta, rows.find(x => x.Atleta === selectedAtleta));
-        });
-      });
-    }
-
-    function emailFromAtleta(nome) {
-      const local = nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/ /g,'.');
-      return local + "@atletasinvisiveis.com";
-    }
-
-    function renderSessions(atletaNome) {
-      const email = emailFromAtleta(atletaNome);
-      const rows = BASE.filter(r => (r.usuario||"").toLowerCase() === email.toLowerCase());
-      const info = document.getElementById('selecionado-info');
-      info.textContent = rows.length ? atletaNome : atletaNome + " — sem sessões listadas neste período.";
-
-      const tbody = document.getElementById('tabela-sessoes');
-      tbody.innerHTML = "";
-      rows.sort((a,b) => (a.data_treino||"").localeCompare(b.data_treino||""));
-      rows.forEach(r => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${(r.data_treino||"").slice(0,10)}</td>
-          <td>${r.modalidade || "—"}</td>
-          <td>${r.intensidade || "—"}</td>
-          <td>${r.duracao || "—"}</td>
-          <td>${fmt(r.nota)}</td>
-          <td>${fmt(r.sent_antes)}</td>
-          <td>${fmt(r.sent_depois)}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function renderSuggestions(atletaNome, insight) {
-      const box = document.getElementById('sugestoes');
-      if (!insight) { box.textContent = "—"; return; }
-      const flags = (insight.flags||"").toLowerCase();
-
-      const recs = [];
-      if (flags.includes("humor consistentemente baixo") || (Number(insight.media_sent_antes)||5) < 3) {
-        recs.push("Apoio técnico/mental: conversa 1:1 para mapear estressores externos.");
-      }
-      if (flags.includes("sem melhora") || (Number(insight.delta_sent)||1) <= 0) {
-        recs.push("Ajuste de carga: revisar intensidade, inserir sessões regenerativas.");
-      }
-      if (flags.includes("baixa assiduidade") || (Number(insight.freq_semana)||0) < 0.7) {
-        recs.push("Rotina mínima: garantir ≥ 1 sessão/semana nas próximas 4 semanas.");
-      }
-      if ((Number(insight.media_nota)||5) < 3.2) {
-        recs.push("Refinar técnica com metas micro (elevar nota média do treino).");
-      }
-
-      box.innerHTML = recs.length ? ("<ul><li>" + recs.join("</li><li>") + "</li></ul>") : "Sem recomendações específicas — manter plano atual.";
-    }
-
-    // Filters
-    function applyFilters() {
-      const st = document.getElementById('filtro-status').value;
-      const q = document.getElementById('busca-atleta').value.toLowerCase().trim();
-      let rows = [...INSIGHTS];
-      if (st) rows = rows.filter(r => (r.status||"") === st);
-      if (q) rows = rows.filter(r => (r.Atleta||"").toLowerCase().includes(q));
-      renderKPIs(rows);
-      renderTable(rows);
-    }
-
-    document.getElementById('filtro-status').addEventListener('change', applyFilters);
-    document.getElementById('busca-atleta').addEventListener('input', applyFilters);
-    document.getElementById('limpar').addEventListener('click', () => {
-      document.getElementById('filtro-status').value = "";
-      document.getElementById('busca-atleta').value = "";
-      selectedAtleta = null;
-      document.getElementById('tabela-sessoes').innerHTML = "";
-      document.getElementById('selecionado-info').textContent = "Selecione um atleta na tabela para ver os treinos.";
-      document.getElementById('sugestoes').textContent = "—";
-      applyFilters();
-    });
-
-    // Initial render
-    applyFilters();
-  </script>
-</body>
-</html>
+<script>
+let ROWS=[];
+function pill(s){if(s==="OK")return'<span class="status ok">OK</span>';if(s==="Atenção")return'<span class="status att">Atenção</span>';return'<span class="status risk">Risco</span>';}
+function kpis(rows){let a=rows.length,p=0,au=0,f=0,c=0;rows.forEach(r=>{p+=r.presencas;au+=r.aulas;if(r.freq_perc){f+=r.freq_perc;c++;}});document.getElementById("kpiAtletas").innerText=a;document.getElementById("kpiPres").innerText=p;document.getElementById("kpiAulas").innerText=au;document.getElementById("kpiFreq").innerText=c?(f/c).toFixed(0)+"%":"—";}
+function apply(){const st=document.getElementById("statusSel").value,q=document.getElementById("q").value.toLowerCase();let rows=ROWS.filter(r=>(!st||r.status===st)&&(!q||(r.Atleta||"").toLowerCase().includes(q)));kpis(rows);const tb=document.getElementById("body");tb.innerHTML="";rows.forEach(r=>{tb.innerHTML+=`<tr><td>${r.Atleta}</td><td>${r.presencas}</td><td>${r.faltas}</td><td>${r.aulas}</td><td>${r.freq_fmt}</td><td>${r.feedbacks}</td><td>${r.respondeu_feedback}</td><td>${pill(r.status)}</td><td>${r.reasons}</td></tr>`});}
+function reset(){document.getElementById("statusSel").value="";document.getElementById("q").value="";apply();}
+fetch("insights_agosto.json").then(r=>r.json()).then(js=>{ROWS=js;apply();});
+</script></body></html>
